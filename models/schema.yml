@@ -3,8 +3,51 @@
 version: 2
 
 sources:
-  - name: gz_raw_data
+  - name: raw
+    schema: gz_raw_data
     tables:
-      - name: raw_gz_sales
-      - name: raw_gz_product
-      - name: raw_gz_ship
+      - name: sales
+        identifier: raw_gz_sales
+        description: sales of Greenweez / we have on row per product_id found in each orders_id
+        loaded_at_field: "CAST(date_date AS TIMESTAMP)"
+        freshness:
+          warn_after: {count: 90, period: day}
+        columns:
+           - name: date_date
+             description: date of purchase
+           - name: orders_id
+             description: Foreign Key / id of the order / we have several product per order id
+           - name: pdt_id
+             description: id of the product
+           - name: revenue
+             description: revenue of the sale
+           - name: quantity
+             description: quantity of sales per product
+        tests:
+          - unique:
+             column_name: "(orders_id || '-' || pdt_id)"
+      - name: product
+        identifier: raw_gz_product
+        description: Pucharse price per product
+        columns:
+           - name: products_id
+             description: Primary Key / id of the product
+             tests:
+              - unique
+              - not_null
+           - name: purchSE_PRICE
+             description: price of the purchase
+      - name: ship
+        identifier: raw_gz_ship
+        description: Pucharse price per product
+        columns:
+           - name: orders_id
+             description: Primary Key, id of the order
+             tests:
+              - unique
+              - not_null
+           - name: shipping_fee
+             description: Shipping fee of each order
+           - name: logCost
+             description: logistic cost of each order
+           - name: ship_cost
