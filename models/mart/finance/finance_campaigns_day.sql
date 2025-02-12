@@ -1,11 +1,11 @@
 select
     date_date
-    ,operational_margin - ads_csot AS ads_margin
+    ,operational_margin - ads_cost AS ads_margin
     ,average_basket
     ,operational_margin
     ,ads_cost
-    ,ads_impression
-    ,ads_clicks
+    ,impression
+    ,click
     ,quantity
     ,revenue
     ,purchase_cost
@@ -14,5 +14,5 @@ select
     ,logcost
     ,ship_cost
 FROM {{ ref('finance_days') }}
-JOIN {{ ref('finance_campaigns_day') }}
+JOIN {{ ref('ints_campaign_days') }}
 USING(date_date)

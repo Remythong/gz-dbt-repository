@@ -168,3 +168,10 @@ models:
     tests:
       - unique:
          column_name: "(date_date || '-' || campaign_key)"
+  - name: finance_campaigns_day
+    columns:
+      - name: date_date
+        description: date of the campaign
+        tests:
+          - unique
+          - not_null
