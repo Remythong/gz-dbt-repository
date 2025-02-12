@@ -56,10 +56,7 @@ sources:
         description: adwords campaign
         columns:
           - name: date_date
-            description: Primary Key, date of the campagin
-            tests:
-              - unique
-              - not_null
+            description: date of the campagin
           - name: paid_source
             description: paid source
             tests:
@@ -85,26 +82,15 @@ sources:
         description: bing campaign
         columns:
           - name: date_date
-            description: Primary Key, date of the campagin
-            tests:
-              - unique
-              - not_null
+            description: date of the campagin
           - name: paid_source
             description: paid source
-            tests:
-              - not_null
           - name: campaign_key
             description: campagaign key, may be a Foreign key
-            tests:
-              - not_null
           - name: camPGN_name
             description: campaign name
-            tests:
-              - not_null
           - name: ads_cost
             description: ads cost
-            tests:
-              - not_null
           - name: impression
             description: nb of impression
           - name: click
@@ -114,10 +100,7 @@ sources:
         description: criteo campaign
         columns:
           - name: date_date
-            description: Primary Key, date of the campagin
-            tests:
-              - unique
-              - not_null
+            description: date of the campagin
           - name: paid_source
             description: paid source
             tests:
@@ -143,10 +126,7 @@ sources:
         description: facebook campaign
         columns:
           - name: date_date
-            description: Primary Key, date of the campagin
-            tests:
-              - unique
-              - not_null
+            description: date of the campagin
           - name: paid_source
             description: paid source
             tests:
@@ -167,3 +147,24 @@ sources:
             description: nb of impression
           - name: click
             description: nb of clicks
+models:
+  - name: int_campaigns
+    description: Union of all campaign
+    columns:
+      - name: date_date
+        description: date of the campagin
+      - name: paid_source
+        description: paid source
+      - name: campaign_key
+        description: campagaign key, may be a Foreign key
+      - name: camPGN_name
+        description: campaign name
+      - name: ads_cost
+        description: ads cost
+      - name: impression
+        description: nb of impression
+      - name: click
+        description: nb of clicks
+    tests:
+      - unique:
+         column_name: "(date_date || '-' || campaign_key)"
