@@ -1,11 +1,12 @@
-SELECT
-    orders_id
-    ,date_date
-    ,SUM(revenue) AS revenue
-    ,SUM(quantity) AS quantity
-    ,SUM(quantity*purchase_price) AS purchase_cost
-    ,SUM(revenue - (quantity*purchase_price)) AS margin
-FROM {{ ref('stg_gz_raw_data__raw_gz_sales') }}
-JOIN {{ ref('stg_gz_raw_data__raw_gz_product') }}
-USING (products_id)
-GROUP BY orders_id, date_date
+ -- int_orders_margin.sql
+
+ SELECT
+     orders_id,
+     date_date,
+     ROUND(SUM(revenue),2) as revenue,
+     ROUND(SUM(quantity),2) as quantity,
+     ROUND(SUM(purchase_cost),2) as purchase_cost,
+     ROUND(SUM(margin),2) as margin
+ FROM {{ ref("int_sales_margin") }}
+ GROUP BY orders_id,date_date
+ ORDER BY orders_id DESC
